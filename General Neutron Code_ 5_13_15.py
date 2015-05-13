@@ -394,7 +394,7 @@ else:
 plt.xlabel('Energies (eV)')
 plt.ylabel('Distance (cm)')
 plt.xscale('log')
-plt.text(max(Energies)-1E2,min(DistanceTraveled),'New Code\n(80% Xe-136 20% Xe-134)\n(Constant Angle-Yes)\n(Thermal walk-Yes)\n(Resonance-No)', ha='center', va='center')
+plt.text(max(Energies)-1E2,min(DistanceTraveled),'New Code\n(80% Xe-136 20% Xe-134)\n(Constant Angle-Yes)\n(Thermal walk-No)\n(Resonance-No)', ha='center', va='center')
 plt.figure(2)
 plt.scatter(Energies,TimeTraveled)
 if ThermalWalk == 1:
@@ -404,5 +404,5 @@ else:
 plt.xlabel('Energies (eV)')
 plt.ylabel('Time (ms)')
 plt.xscale('log')
-plt.text(max(Energies)-1E2,min(TimeTraveled),'New Code\n(80% Xe-136 20% Xe-134)\n(Constant Angle-Yes)\n(Thermal walk-Yes)\n(Resonance-No)', ha='center', va='center')
+plt.text(max(Energies)-1E2,min(TimeTraveled),'New Code\n(80% Xe-136 20% Xe-134)\n(Constant Angle-Yes)\n(Thermal walk-No)\n(Resonance-No)', ha='center', va='center')
 plt.show()

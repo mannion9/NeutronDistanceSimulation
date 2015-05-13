@@ -1,0 +1,52 @@
+
+\documentclass[12pt]{amsart}
+\usepackage{geometry} % see geometry.pdf on how to lay out the page. There's lots.
+\geometry{a4paper} % or letter or a5paper or ... etc
+% \geometry{landscape} % rotated page geometry
+
+% See the ``Article customise'' template for come common customisations
+
+%%% BEGIN DOCUMENT
+\begin{document}
+\title{Neutron Scattering}
+\author{Owen Mannion}
+\today
+\maketitle
+
+\section{Intro}
+\indent This document is intended to be a brief overview of the simulation I have been developing with Prof. Pocar. The simulation determines the distance and time a neutron of a given initial energy travels in a given substance. The simulation can now handle multiple substances, nuclear resonance data and thermal motion before absorption.\\
+\indent There should also be another document with this one which is an extensive write up I did for writing in physics course. The extensive write up document goes through and describes the physics and the development of the code. Reading the extensive write up is is not necessary but it may be useful when trying to understand the simulation.\\
+\indent The overall setup is the code is that it is split up into there sections. User Input, Substance Input, and Simulation. The User Input section allows you to specify what you want to include in simulation  like a thermal walk or resonance data. The Substance Input section is where you will need to insert your own data about the substance. The Simulation section is the core of the simulation and you will not need to change this.
+\section{Data you need}
+If you want to run this simulation you are going to need a fair amount of information about the substance you are simulating.\\
+\subsection{ General Features of substance}
+\indent First you will need to gather the density of the substance in $g\over{cm^{3}}$. Second you will need the atomic weight of your substance(s) in amu. If you are simulating a molecule the atomic weight of that substance will just be the sum of all the atoms in the molecule i.e. $C_{9}H_{12}$ the atomic weight is 120 amu. You will also need to know the concentration of each of the substances in your mixture.\\
+\subsection{Cross Sections}
+This is the most labour intensive part of running the simulation. You will need to fit cross section data to functions. This will allow you to accurately determine the total cross section for any energy neutron. This fitting is necessary because data bases only have particular data points but you will need energies that they most likely will not have. \textbf{NOTE: Your cross section fits must be in barns with energies in eV's for the code to work properly)}\\
+\indent To start fitting you should go to databases (http://www.nndc.bnl.gov/exfor/endf00.jsp) and extract that total cross section, inputed as (n,tot). You should be able to find a table of the data and extract that to your fitting software. If you plot your data you will see that there is no obvious trends and that there may be large spikes.\\
+\indent To deal with this delete these large spikes from your data set, we will deal with these later. Now you will be able to fit this smooth data to functions, you may be forced to split the data up into smaller domains to get an acceptable fit.\\
+\subsection{Resonances}
+The large spikes in the cross section graphs are from nuclear resonances which are specific energies for the nuclei when a neutron can be absorbed.\\
+\indent One must now investigate if this resonance will cause an absorption or not. To do this you can look back at the databases and select two reactions (n,el), and (n,gamma). You must now compare the cross section for the (n,el) and (n,gamma) to see if they are comparable. If the (n,gamma) cross section for a particular resonance is insignificant compared to the (n,el) reaction, this resonance can be ignored. If the cross sections are comparable or if the (n,gamma) cross section is large, you must consider this resonance.\\
+\indent If the resonance is comparable you will need to fit the resonance data for the (n,el) and (n,gamma). The cross sections of a resonance fits a gaussian very nicely. This will allow us to use the Choice function, which I will describe later, to decided if the neutron is scattered or absorbed. 
+\subsection{Thermal Absorption}
+If a neutron is not absorbed by a resonance it will be absorbed while thermal, that is at an energy of $1\over{40}$ eV. This is taken into account in the simulation and so you will need to get there thermal cross section for your substance. You can find thermal absorption data at (http://www.ncnr.nist.gov/resources/n-lengths/).
+\section{Comments}
+The Choice function determines which reaction occurs given the different cross sections. It works essentially by finding the weighted probability of each reaction occurring. It then creates a list of a particular number of elements (the length depends on the precision you choice, I found 3 works well without making your run time extremely long). Then it fills the list with 1's and 0's corresponding to the different reactions (i.e. a 1 corresponds to a carbon reaction and 0 to a hydrogen). Then a random index is chosen and then in the list of 1's and 0's it looks at that index's value. The value decides which reaction occurs. This is crude but it works quite well as long as your precision is kept relatively small (I made a lab book post on this post number 91 at "2015-01-20 16:21:16"). I have only made this function for two possible reactions, but it could be generalized to n number of reactions (this could be a good project for a future student).\\
+\indent I have also recently changed the way the energy loss is calculated. I was using average of three different methods (described in my EXO blog post named 7/2/14). Now I am just using the third method, the Fermi treatment. You will find a function called Energy Loss which does this calculation. I must not that I recall that this treatment does not work as well for small atomic mass elements.
+\section{Test Run}
+The code that is in this depository is programed to run with 20\% Xe-134 and 80\% Xe-134. I have placed plots in the deposits of the results I get when running the code. They do not includes a thermal walk, uses a constant scattering angle, and does not include resonances or a varying energy loss. The thermal walk can be turned on by changing line 13 to a 1. The varying scattering angle is working and can be turned on by just changing line 14 to a 1. The varying energy loss can be turned on by changing line 16 to a 1. \\
+\section{Further Reading and Next Steps}
+Here are some sources which helped me understand neutron scattering.\\
+\indent Main paper based my work off of (http://scitation.aip.org/content/aapt/journal/ajp/45/5/10.1119/1.10833)\\
+Andrea has a great book that deals with neutron scattering, I forget the name but its dark blue.\\
+\indent The only part of the code that is not functional just yet is the resonances. This can be made correct with just some work. I have most of the code running. To get this running one must add the cross section fits for Xe-134 to line 126. I have put a file that has all the fit data within it and just must be inserted it is called ResonanceFit.py. One must also go into line 144 and add a few lines that take in the Xe-134 data for absorption and scattering depending on the energy.
+\section{End}
+Once you have all of this information you will need to go through the code and amend everything to fit your substance. I tried to make things as general as possible so that you can just put in the cross section data function and resonances but this was difficult to do.\\
+\indent If you have any question don't hesitate to email me at "galway1212@hotmail.com". I hope this all makes sense.
+
+
+
+
+
+\end{document}
