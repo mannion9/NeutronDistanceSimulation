@@ -398,9 +398,9 @@ plt.text(max(Energies)-1E2,min(DistanceTraveled),'New Code\n(80% Xe-136 20% Xe-1
 plt.figure(2)
 plt.scatter(Energies,TimeTraveled)
 if ThermalWalk == 1:
-    plt.title('Distance To Absorption vs Initial Energy ')
+    plt.title('Time To Absorption vs Initial Energy ')
 else:
-    plt.title('Distance to Thermal vs Initial Energy ')
+    plt.title('Time to Thermal vs Initial Energy ')
 plt.xlabel('Energies (eV)')
 plt.ylabel('Time (ms)')
 plt.xscale('log')
