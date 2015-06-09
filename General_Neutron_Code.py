@@ -1,3 +1,4 @@
+#from __future__ import division
 import math as m
 import matplotlib.pyplot as plt
 import random
@@ -40,7 +41,7 @@ k_2_2=-6.7402
 k_2_3=2.5277 
 k_2_4=-0.57594 
 k_2_5=0.083509
-k_2_6=-0.007686 
+k_2_6=-0.007686  
 k_2_7=0.00043296
 k_2_8=-1.3584e-05
 k_2_9=1.8161e-07
@@ -78,7 +79,7 @@ def Xe_136_Fit(Energy):
         XC = y_3_0+A_3*(m.exp(-(m.log(Energy/x_3_0)/width_3)**2))
         return XC
     elif Energy > .0059:
-        XC = XC_test = y_4_0+A_4*(m.exp(-(m.log(Energy/x_4_0)/width_4)**2))
+        XC = y_4_0+A_4*(m.exp(-(m.log(Energy/x_4_0)/width_4)**2))
         return XC
     else :
         XC = k_5_0+(k_5_1*Energy)+(k_5_2*(Energy**2))+(k_5_3*(Energy**3))+(k_5_4*(Energy**4))+(k_5_5*(Energy**5))+(k_5_6*(Energy**6))+(k_5_7*(Energy**7))+(k_5_8*(Energy**8))
